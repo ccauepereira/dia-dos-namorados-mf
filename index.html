@@ -1025,6 +1025,115 @@ canvas[role="img"] {
       </div>
     </section>
 
+
+    <!-- SEÇÃO 8: PREMIUM FINALE -->
+    <section class="parte-2b-section premium-finale-section" id="section-premium-finale" aria-labelledby="premium-finale-title">
+      <div class="parte-2b-wrap premium-finale-wrap">
+        <div class="premium-product-card">
+          <div class="premium-product-media">
+            <!-- Developer note: add the provided image at assets/images/fernanda.png if it is missing from the repository. -->
+            <img
+              src="assets/images/fernanda.png"
+              alt="BARBIE FERNANDA Limited Edition collectible"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="premium-product-info">
+            <p class="premium-eyebrow">Premium Collectible</p>
+            <h2 id="premium-finale-title">BARBIE FERNANDA™ Limited Edition</h2>
+            <p class="premium-subtitle">&quot;The strongest, most beautiful and most incredible woman in the universe.&quot;</p>
+            <div class="premium-rating" aria-label="Rated five out of five stars">★★★★★</div>
+            <ul class="premium-traits" aria-label="Collectible traits">
+              <li>Gorgeous</li>
+              <li>Strong</li>
+              <li>Caring</li>
+              <li>Funny</li>
+              <li>My favorite person</li>
+            </ul>
+            <p class="premium-price">Priceless ❤️</p>
+            <button class="premium-buy-btn" id="premium-buy-btn" type="button">Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="premium-checkout-modal" id="premium-checkout-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="premium-checkout-title">
+      <div class="premium-modal-backdrop" data-premium-close></div>
+      <div class="premium-modal-panel" role="document">
+        <button class="premium-modal-close" type="button" aria-label="Close checkout" data-premium-close>×</button>
+        <div class="premium-card-preview">
+          <!-- Developer note: add the provided image at assets/images/xerecard.jpeg if it is missing from the repository. -->
+          <img
+            src="assets/images/xerecard.jpeg"
+            alt="XereCard Black Unlimited premium payment card"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="premium-checkout-content">
+          <p class="premium-eyebrow">Premium Finale</p>
+          <h2 id="premium-checkout-title">Secure Checkout</h2>
+          <dl class="premium-checkout-details">
+            <div>
+              <dt>Card holder</dt>
+              <dd>Maria Fernanda</dd>
+            </div>
+            <div>
+              <dt>Card</dt>
+              <dd>XereCard™ Black Unlimited</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>Approved for unlimited love.</dd>
+            </div>
+            <div>
+              <dt>Available limit</dt>
+              <dd>Infinite.</dd>
+            </div>
+          </dl>
+
+          <div class="premium-benefits-block">
+            <h3>Benefits</h3>
+            <ul class="premium-benefits">
+              <li>Unlimited hugs</li>
+              <li>Unlimited kisses</li>
+              <li>Lifetime emotional support</li>
+              <li>Priority cuddle access</li>
+              <li>Premium girlfriend status</li>
+            </ul>
+          </div>
+
+          <fieldset class="premium-payment-methods">
+            <legend>Payment methods</legend>
+            <label><input type="radio" name="premium-payment" value="xerecard" checked /> XereCard™</label>
+            <label><input type="radio" name="premium-payment" value="beijinhos" /> Beijinhos Doces™</label>
+          </fieldset>
+
+          <div class="premium-modal-actions">
+            <button class="premium-complete-btn" id="premium-complete-purchase" type="button">Complete Purchase</button>
+            <button class="premium-return-btn" type="button" data-premium-close>Return</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="premium-finale-overlay" id="premium-finale-overlay" aria-hidden="true">
+      <canvas id="premium-finale-canvas" role="img" aria-label="Grand finale animation: particles form a heart, become a Hello Kitty silhouette, then reveal the final love message.">
+        Grand finale animation with love particles, a heart, a Hello Kitty silhouette, and a final romantic message.
+      </canvas>
+      <div class="premium-approval" id="premium-approval" role="status" aria-live="polite">
+        <strong>Purchase approved.</strong>
+        <span>This collectible already belongs to the luckiest boyfriend alive.</span>
+      </div>
+      <div class="premium-final-message" id="premium-final-message">
+        <p>You are the best thing that has ever happened to me.</p>
+        <p>Thank you for choosing me every single day.</p>
+        <p>I love you, my little white monkey.</p>
+        <p>Forever yours. ❤️🐒🤍</p>
+      </div>
+    </div>
+
     <div id="contador" aria-label="Contador do amor"></div>
 
     <div id="success-overlay" role="dialog" aria-modal="true" aria-hidden="true">
@@ -1055,6 +1164,7 @@ canvas[role="img"] {
   <script src="assets/js/quiz.js"></script>
   <script src="assets/js/raspadinhas.js"></script>
   <script src="assets/js/surpresa.js"></script>
+  <script src="assets/js/premium-finale.js"></script>
   <script src="assets/js/main.js"></script>
   <script>
 // === PARTE 2B ===
