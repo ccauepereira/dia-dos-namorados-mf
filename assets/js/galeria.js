@@ -1,0 +1,3 @@
+// === GALERIA ===
+function initGaleria() {
+}

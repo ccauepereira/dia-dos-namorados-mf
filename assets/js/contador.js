@@ -1,0 +1,3 @@
+// === CONTADOR ===
+function initContador() {
+}
