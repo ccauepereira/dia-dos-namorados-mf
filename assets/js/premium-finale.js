@@ -36,7 +36,7 @@ function initPremiumFinale() {
     lastFocusedElement = document.activeElement;
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('premium-modal-open');
 
     syncSelectedPayment();
 
@@ -47,7 +47,7 @@ function initPremiumFinale() {
   function closeCheckoutModal() {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    document.body.classList.remove('premium-modal-open');
 
     if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
       lastFocusedElement.focus();
@@ -110,7 +110,7 @@ function initPremiumFinale() {
 
     finaleOverlay.classList.add('active');
     finaleOverlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('premium-finale-active');
 
     if (prefersReducedMotion) {
       showFinalMessage();

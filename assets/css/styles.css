@@ -766,7 +766,7 @@
 .premium-finale-approval,
 .premium-finale-message {
   border: 1px solid rgba(212, 175, 55, 0.3);
-  background: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(80, 14, 28, 0.28));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 0 60px rgba(212, 175, 55, 0.15), 0 20px 40px rgba(0, 0, 0, 0.3);
@@ -786,7 +786,8 @@
   isolation: isolate;
 }
 
-.premium-finale-media::before {
+.premium-finale-media::before,
+.premium-card-preview::before {
   content: '';
   position: absolute;
   inset: 8%;
@@ -816,6 +817,18 @@
   box-shadow: 0 1.8rem 4rem rgba(0, 0, 0, 0.4), 0 0 3rem rgba(212, 175, 55, 0.42);
 }
 
+.premium-card-preview {
+  position: relative;
+  isolation: isolate;
+}
+
+.premium-card-preview img {
+  width: min(100%, 24rem);
+  margin: 0 auto;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, 0.36), 0 0 2rem rgba(212, 175, 55, 0.24);
+}
+
 .premium-finale-info h2,
 .premium-modal-panel h2,
 .premium-finale-approval h3 {
@@ -824,6 +837,10 @@
   font-family: 'Dancing Script', cursive;
   font-size: clamp(2.4rem, 6vw, 4.6rem);
   line-height: 0.95;
+}
+
+.premium-modal-panel h2 {
+  padding-right: 3rem;
 }
 
 .premium-finale-eyebrow {
@@ -841,6 +858,10 @@
   color: rgba(255, 240, 243, 0.9);
   font-size: clamp(1rem, 2vw, 1.25rem);
   line-height: 1.7;
+}
+
+.premium-checkout-subtitle {
+  margin: 0.75rem 0 0;
 }
 
 .premium-finale-intro {
@@ -881,8 +902,7 @@
 }
 
 .premium-finale-traits li,
-.premium-benefits li,
-.premium-payment-methods label {
+.premium-benefits li {
   border: 1px solid rgba(212, 175, 55, 0.32);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
@@ -918,6 +938,20 @@
   box-shadow: 0 0 34px rgba(212, 175, 55, 0.48);
 }
 
+.premium-finale-buy:focus-visible,
+.premium-approve-btn:focus-visible,
+.premium-return-btn:focus-visible,
+.premium-modal-close:focus-visible,
+.premium-payment-methods label:focus-within {
+  outline: 3px solid rgba(255, 240, 243, 0.95);
+  outline-offset: 3px;
+}
+
+body.premium-modal-open,
+body.premium-finale-active {
+  overflow: hidden;
+}
+
 .premium-checkout-modal,
 .premium-finale-overlay {
   position: fixed;
@@ -929,7 +963,7 @@
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: clamp(0.75rem, 3vw, 2rem);
 }
 
 .premium-checkout-modal.active {
@@ -939,38 +973,48 @@
 .premium-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(6, 1, 4, 0.78);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: radial-gradient(circle at center, rgba(90, 18, 32, 0.42), rgba(6, 1, 4, 0.82));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .premium-modal-panel {
   position: relative;
   z-index: 1;
-  width: min(58rem, 100%);
-  max-height: min(92vh, 52rem);
+  width: min(64rem, 100%);
+  max-height: min(92vh, 54rem);
   overflow: auto;
-  border-radius: 24px;
-  padding: clamp(1rem, 3vw, 2rem);
+  border-radius: 28px;
+  padding: clamp(1.25rem, 3vw, 2.4rem);
 }
 
 .premium-modal-close {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  border: 0;
+  top: 0.85rem;
+  right: 0.85rem;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(255, 240, 243, 0.22);
   border-radius: 999px;
   background: rgba(255, 240, 243, 0.12);
   color: #fff;
   cursor: pointer;
   font-size: 1.6rem;
+  line-height: 1;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.premium-modal-close:hover {
+  background: rgba(255, 240, 243, 0.2);
+  transform: scale(1.04);
 }
 
 .premium-checkout-grid {
   display: grid;
-  grid-template-columns: minmax(14rem, 0.78fr) minmax(0, 1fr);
-  gap: clamp(1rem, 3vw, 2rem);
-  margin-top: 1.2rem;
+  grid-template-columns: minmax(15rem, 0.88fr) minmax(18rem, 1fr);
+  align-items: start;
+  gap: clamp(1.1rem, 3vw, 2.4rem);
+  margin-top: 1.4rem;
 }
 
 .premium-checkout-details,
@@ -1003,37 +1047,66 @@
   color: #fff;
 }
 
+.premium-checkout-content h3 {
+  margin: 0 0 0.85rem;
+}
+
 .premium-benefits {
   display: grid;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.35rem;
 }
 
 .premium-payment-methods {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.8rem;
   margin: 0;
   padding: 0;
   border: 0;
 }
 
+.premium-payment-methods legend {
+  margin-bottom: 0.7rem;
+}
+
 .premium-payment-methods label {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  min-height: 44px;
+  gap: 0.65rem;
+  min-height: 52px;
+  border: 1px solid rgba(212, 175, 55, 0.34);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(255, 182, 193, 0.08));
+  color: #fff;
   cursor: pointer;
+  padding: 0.85rem 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
 }
 
+.premium-payment-methods label:hover,
 .premium-payment-methods label.selected {
   border-color: var(--dourado);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.22), rgba(255, 182, 193, 0.14));
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.22);
+  transform: translateY(-1px);
+}
+
+.premium-payment-methods input {
+  accent-color: var(--dourado);
+  inline-size: 1.1rem;
+  block-size: 1.1rem;
+  flex: 0 0 auto;
+}
+
+.premium-payment-methods span {
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .premium-modal-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
-  margin-top: 1.25rem;
+  margin-top: 1.35rem;
 }
 
 .premium-return-btn {
@@ -1043,6 +1116,12 @@
   color: #fff;
   cursor: pointer;
   padding: 0.85rem 1.25rem;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.premium-return-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
 }
 
 .premium-finale-approval {
@@ -1129,6 +1208,14 @@
     text-align: center;
   }
 
+  .premium-modal-panel h2 {
+    padding-right: 0;
+  }
+
+  .premium-card-preview img {
+    width: min(100%, 20rem);
+  }
+
   .premium-finale-traits,
   .premium-finale-rating,
   .premium-modal-actions {
@@ -1150,6 +1237,16 @@
     border-radius: 18px;
   }
 
+  .premium-checkout-modal {
+    align-items: stretch;
+    padding: 0.65rem;
+  }
+
+  .premium-modal-panel {
+    max-height: calc(100vh - 1.3rem);
+    padding: 1rem;
+  }
+
   .premium-modal-actions > button {
     width: 100%;
   }
@@ -1159,6 +1256,9 @@
   .premium-finale-media img,
   .premium-finale-buy,
   .premium-approve-btn,
+  .premium-return-btn,
+  .premium-modal-close,
+  .premium-payment-methods label,
   .premium-finale-approval,
   .premium-finale-message {
     transition: none !important;
@@ -1166,7 +1266,11 @@
 
   .premium-finale-media img:hover,
   .premium-finale-buy:hover,
-  .premium-approve-btn:hover {
+  .premium-approve-btn:hover,
+  .premium-return-btn:hover,
+  .premium-modal-close:hover,
+  .premium-payment-methods label:hover,
+  .premium-payment-methods label.selected {
     transform: none;
   }
 }
