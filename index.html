@@ -1188,50 +1188,62 @@ const GOOD_MORNINGS_PER_DAY = 1;
 const LAUGHS_PER_DAY = 15;
 // ✏️ EDIT HERE
 const MEMORIES = [
-  // ✏️ EDIT HERE
-  { date: '[DATA_1]', moment: '[MOMENTO_1]' },
-  // ✏️ EDIT HERE
-  { date: '[DATA_2]', moment: '[MOMENTO_2]' },
-  // ✏️ EDIT HERE
-  { date: '[DATA_3]', moment: '[MOMENTO_3]' },
-  // ✏️ EDIT HERE
-  { date: '[DATA_4]', moment: '[MOMENTO_4]' },
-  // ✏️ EDIT HERE
-  { date: '[DATA_5]', moment: '[MOMENTO_5]' },
+  { date: '18/07/2022', moment: 'Nosso selinho na sala KKKKK 🥹' },
+  { date: '2025',       moment: 'Quando você virou a cara de vergonha do meu beijo 😂❤️' },
+  { date: '19/04/2025', moment: 'Nosso primeiro beijo 💋' },
+  { date: '16/09/2025', moment: 'Ali eu vi que você é a mulher da minha vida 🐒🤍' },
+  { date: '08/10/2025', moment: 'Enfim assumidos. ❤️' },
 ];
 // ✏️ EDIT HERE
 const PHOTOS = [
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto1.jpg', caption: '[LEGENDA_1]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto2.jpg', caption: '[LEGENDA_2]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto3.jpg', caption: '[LEGENDA_3]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto4.jpg', caption: '[LEGENDA_4]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto5.jpg', caption: '[LEGENDA_5]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto6.jpg', caption: '[LEGENDA_6]' },
+  {
+    src: 'assets/images/foto1.jpg',
+    caption: 'A gente faz amor por telepatia'
+  },
+  {
+    src: 'assets/images/foto2.jpg',
+    caption: 'Dia da dona Hebal conhecer meus pais'
+  },
+  {
+    src: 'assets/images/foto3.jpg',
+    caption: 'Últimos momentos na escola'
+  },
+  {
+    src: 'assets/images/foto4.jpg',
+    caption: 'Foi quando te encontrei ouvindo som e olhando o mar'
+  },
+  {
+    src: 'assets/images/foto5.jpg',
+    caption: 'Tchau ensino médio'
+  },
+  {
+    src: 'assets/images/foto6.jpg',
+    caption: 'Primeiro ano novo com você'
+  },
 ];
 // ✏️ EDIT HERE
-const LETTER_NAME = '[NOME_DELA]';
+const LETTER_NAME = 'Maria Fernanda';
 // ✏️ EDIT HERE
-const LETTER_BODY = '[ESCREVA_AQUI_SUA_MENSAGEM_COMPLETA]';
+const LETTER_BODY = `Oi meu grande amor,
+
+Desde quando eu nasci, só tinha uma certeza: a morte.
+
+Mas depois de te conhecer, ganhei outra. Quando eu tinha 13 anos, eu te vi, olhei e pensei:
+
+"Agora tenho duas certezas: a morte, e que a Fernanda vai ser mãe dos meus filhos."
+
+Te amo muito, meu amor.`;
 // ✏️ EDIT HERE
-const LETTER_SENDER = '[SEU_NOME]';
+const LETTER_SENDER = 'Caue, seu bebezão cutie cutie 🐒🖤💋🐒🤍';
 // ✏️ EDIT HERE
 const TYPEWRITER_SPEED = 40;
 // ✏️ EDIT HERE
 const QUIZ_QUESTIONS = [
-  // ✏️ EDIT HERE
-  { q: '[PERGUNTA_1]', a: '[RESPOSTA_1]' },
-  // ✏️ EDIT HERE
-  { q: '[PERGUNTA_2]', a: '[RESPOSTA_2]' },
-  // ✏️ EDIT HERE
-  { q: '[PERGUNTA_3]', a: '[RESPOSTA_3]' },
+  { q: 'Quando foi a primeira vez que a gente deu um selinho? 🥹', a: '18/07/2022' },
+  { q: 'Quando foi nosso primeiro beijo de verdade? 💋',           a: '19/04/2025' },
+  { q: 'Qual é a nossa data de namoro? ❤️',                        a: '16/09/2025' },
 ];
-// ✏️ EDIT HERE
+
 const PARTIAL_MATCH = false;
 // ✏️ EDIT HERE
 const WRONG_PHRASES = [
@@ -1246,17 +1258,14 @@ const WRONG_PHRASES = [
 ];
 // ✏️ EDIT HERE
 const SCRATCH_PRIZES = [
-  // ✏️ EDIT HERE
-  '[VALE_1]',
-  // ✏️ EDIT HERE
-  '[VALE_2]',
-  // ✏️ EDIT HERE
-  '[VALE_3]',
+  'Vale meus beijinhos 😘',
+  'Vale fazer os quereres da bonita 👑',
+  'Vale uma noite especial só nossa 🔥❤️',
 ];
 // ✏️ EDIT HERE
 const SCRATCH_THRESHOLD = 0.60;
 // ✏️ EDIT HERE
-const FINAL_MESSAGE = 'Você é a melhor coisa que aconteceu na minha vida. Te amo, meu macaquinho branquinho. 🐒🤍🐒';
+const FINAL_MESSAGE = 'Nosso primeiro e eterno Dia dos Namorados. Te amo, Nandinha. 🐒🤍';
 
 (() => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1374,7 +1383,7 @@ const FINAL_MESSAGE = 'Você é a melhor coisa que aconteceu na minha vida. Te a
 
   function initLoveLetter() {
     const letterCard = document.getElementById('letter-card');
-    const fullLetter = `Querida ${LETTER_NAME},\n\n${LETTER_BODY}\n\nCom amor,\n${LETTER_SENDER} 🐒🖤`;
+    const fullLetter = `Querida ${LETTER_NAME}\n\n${LETTER_BODY}\n\nCom amor,\n${LETTER_SENDER}`;
     if (!letterCard) return;
 
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
