@@ -376,22 +376,47 @@
     }
 
     #portal.unlocked {
-      min-height: 42vh;
+      min-height: 0;
+      height: 0;
+      padding: 0;
       opacity: 0;
       transform: translateY(-1.5rem) scale(0.98);
+      overflow: hidden;
       pointer-events: none;
     }
 
+    #cinematic-transition {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s ease;
+    }
+
+    #cinematic-transition.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     #hero {
+      position: relative;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 2rem;
+      padding: clamp(1.1rem, 4vw, 2.5rem);
       opacity: 1;
       transform: translateY(0);
-      transition: opacity 0.9s ease, transform 0.9s ease;
+      transition: opacity 1s ease, transform 1s ease;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(212, 175, 55, 0.15), transparent 18rem),
+        radial-gradient(circle at 30% 30%, rgba(255, 182, 193, 0.18), transparent 20rem),
+        linear-gradient(180deg, rgba(61, 12, 17, 0.35), rgba(0, 0, 0, 0.62));
     }
 
     .portal-locked #hero {
@@ -404,19 +429,255 @@
       pointer-events: none;
     }
 
-    .hero-content h1 {
-      font-family: 'Dancing Script', cursive;
-      font-size: clamp(2rem, 8vw, 3.5rem);
-      color: var(--creme);
-      margin-bottom: 1rem;
+    #heart-particles-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
     }
 
-    .hero-content p {
+    .hero-content {
+      width: min(100%, 58rem);
+      display: grid;
+      place-items: center;
+      gap: clamp(0.95rem, 2.2vw, 1.4rem);
+      opacity: 0;
+      transform: translateY(1.5rem) scale(0.98);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    #hero.hero-revealed .hero-content {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .hero-monkeys {
+      position: relative;
+      width: min(92vw, 35rem);
+      min-height: clamp(13rem, 34vw, 20rem);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: clamp(0.25rem, 5vw, 2.8rem);
+      opacity: 0;
+      transform: scale(0.86);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    #hero.monkeys-visible .hero-monkeys {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .hero-monkey {
+      width: clamp(7.8rem, 25vw, 12.5rem);
+      height: auto;
+      filter: drop-shadow(0 1.1rem 1.8rem rgba(0, 0, 0, 0.34));
+      transform-origin: 50% 100%;
+    }
+
+    .hero-monkey.black {
+      animation: monkeyBlackApproach 5.8s ease-in-out 1 forwards;
+    }
+
+    .hero-monkey.white {
+      animation: monkeyWhiteApproach 5.8s ease-in-out 1 forwards;
+    }
+
+    .hero-heart-between {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      font-size: clamp(1.5rem, 6vw, 2.8rem);
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.4);
+      filter: drop-shadow(0 0 1rem rgba(255, 182, 193, 0.8));
+    }
+
+    #hero.monkeys-visible .hero-heart-between {
+      animation: tinyHeartBorn 5.8s ease-in-out 1 forwards;
+    }
+
+    @keyframes monkeyBlackApproach {
+      0% { transform: translateX(-2.3rem) rotate(-2deg); }
+      65%, 100% { transform: translateX(0.65rem) rotate(1deg); }
+    }
+
+    @keyframes monkeyWhiteApproach {
+      0% { transform: translateX(2.3rem) rotate(2deg); }
+      65%, 100% { transform: translateX(-0.65rem) rotate(-1deg); }
+    }
+
+    @keyframes tinyHeartBorn {
+      0%, 48% { opacity: 0; transform: translate(-50%, -50%) scale(0.35); }
+      70% { opacity: 1; transform: translate(-50%, -70%) scale(1.08); }
+      100% { opacity: 1; transform: translate(-50%, -70%) scale(1); }
+    }
+
+    .hero-content h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.35rem, 9vw, 5.6rem);
+      line-height: 0.98;
+      color: #fff7f9;
+      margin: 0.35rem 0 0;
+      text-shadow: 0 0.45rem 1.8rem rgba(201, 116, 138, 0.45);
+    }
+
+    .hero-subtitle,
+    .hero-greeting {
       color: var(--rosa2);
-      font-size: 1rem;
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
       font-weight: 300;
-      max-width: 30rem;
+      max-width: 42rem;
       margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .hero-subtitle {
+      font-family: 'Dancing Script', cursive;
+      color: var(--creme);
+      font-size: clamp(1.45rem, 4.8vw, 2.25rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      margin-top: 0.35rem;
+    }
+
+    .hero-main-button,
+    .infinite-button {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 240, 243, 0.25);
+      border-radius: 999px;
+      padding: 0.9rem 1.35rem;
+      color: #fff;
+      background: linear-gradient(135deg, rgba(201, 116, 138, 0.92), rgba(212, 175, 55, 0.82));
+      box-shadow: 0 0.8rem 2rem rgba(201, 116, 138, 0.32);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 48px;
+    }
+
+    .infinite-button {
+      background: rgba(255, 240, 243, 0.1);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      font-weight: 500;
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: scale(0);
+      animation: rippleEffect 0.65s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      to { opacity: 0; transform: scale(3.8); }
+    }
+
+    #random-reason {
+      min-height: 1.6rem;
+      color: var(--dourado);
+      font-size: 0.95rem;
+      font-style: italic;
+      max-width: 38rem;
+    }
+
+    .music-widget {
+      position: fixed;
+      right: max(1rem, env(safe-area-inset-right));
+      bottom: max(1rem, env(safe-area-inset-bottom));
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.55rem 0.65rem;
+      border: 1px solid rgba(255, 240, 243, 0.22);
+      border-radius: 999px;
+      background: rgba(255, 240, 243, 0.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.25);
+    }
+
+    .music-toggle {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 999px;
+      border: 0;
+      background: rgba(61, 12, 17, 0.72);
+      color: #fff;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    .equalizer {
+      display: flex;
+      align-items: center;
+      gap: 0.18rem;
+      height: 1.7rem;
+    }
+
+    .equalizer span {
+      width: 0.24rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--dourado), var(--rosa));
+      opacity: 0.55;
+    }
+
+    .music-widget.playing .equalizer span {
+      animation: equalizerDance 0.75s ease-in-out infinite alternate;
+    }
+
+    .music-widget.playing .equalizer span:nth-child(2) { animation-delay: 0.12s; }
+    .music-widget.playing .equalizer span:nth-child(3) { animation-delay: 0.24s; }
+    .music-widget.playing .equalizer span:nth-child(4) { animation-delay: 0.36s; }
+
+    @keyframes equalizerDance {
+      to { height: 1.55rem; opacity: 1; }
+    }
+
+    #romantic-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 5.6rem;
+      z-index: 45;
+      width: min(calc(100vw - 2rem), 25rem);
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(255, 240, 243, 0.18);
+      border-radius: 1rem;
+      background: rgba(61, 12, 17, 0.72);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: var(--creme);
+      text-align: center;
+      opacity: 0;
+      transform: translate(-50%, 0.8rem);
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.28);
+    }
+
+    #romantic-toast.visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    #contador {
+      min-height: 1px;
+      scroll-margin-top: 1rem;
     }
 
     @media (max-width: 520px) {
@@ -454,12 +715,38 @@
       .btn-entrar {
         min-height: 48px;
       }
+
+      .hero-monkeys {
+        min-height: 12rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .hero-main-button,
+      .infinite-button {
+        width: min(100%, 22rem);
+      }
+
+      .music-widget {
+        right: 0.75rem;
+        bottom: 0.75rem;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
+      }
+
+      .hero-monkey.black,
+      .hero-monkey.white,
+      #hero.monkeys-visible .hero-heart-between,
+      .music-widget.playing .equalizer span {
+        animation: none !important;
       }
     }
   </style>
@@ -598,11 +885,75 @@
     </section>
 
     <section id="hero">
+      <canvas id="heart-particles-canvas" aria-hidden="true"></canvas>
       <div class="hero-content">
-        <h1>O amor está mais perto do que nunca</h1>
-        <p>Ao abrir o portal, você encontra carinho, surpresa e uma mensagem especial só para vocês.</p>
+        <div class="hero-monkeys" aria-hidden="true">
+          <svg class="hero-monkey black" viewBox="0 0 160 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="28" cy="79" rx="18" ry="20" fill="#2D2D2D"/>
+            <ellipse cx="28" cy="79" rx="10" ry="12" fill="#674431"/>
+            <ellipse cx="132" cy="79" rx="18" ry="20" fill="#2D2D2D"/>
+            <ellipse cx="132" cy="79" rx="10" ry="12" fill="#674431"/>
+            <ellipse cx="80" cy="76" rx="54" ry="52" fill="#2D2D2D"/>
+            <ellipse cx="80" cy="94" rx="31" ry="23" fill="#674431"/>
+            <ellipse cx="59" cy="72" rx="12" ry="14" fill="#fff"/>
+            <ellipse cx="101" cy="72" rx="12" ry="14" fill="#fff"/>
+            <ellipse class="hero-pupil" data-origin-x="60" data-origin-y="74" cx="60" cy="74" rx="5.8" ry="6.8" fill="#151515"/>
+            <ellipse class="hero-pupil" data-origin-x="102" data-origin-y="74" cx="102" cy="74" rx="5.8" ry="6.8" fill="#151515"/>
+            <circle cx="63" cy="70" r="2.1" fill="#fff"/>
+            <circle cx="105" cy="70" r="2.1" fill="#fff"/>
+            <ellipse cx="44" cy="93" rx="12" ry="8" fill="#C9748A" opacity="0.72"/>
+            <ellipse cx="116" cy="93" rx="12" ry="8" fill="#C9748A" opacity="0.72"/>
+            <ellipse cx="80" cy="95" rx="8" ry="5" fill="#3d2a1a"/>
+            <path d="M65 106 Q80 119 95 106" stroke="#3d2a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M52 60 Q60 50 70 55" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+            <path d="M90 55 Q101 49 110 60" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+            <ellipse cx="80" cy="152" rx="39" ry="25" fill="#2D2D2D"/>
+            <path d="M47 139 Q21 123 21 101" stroke="#2D2D2D" stroke-width="12" stroke-linecap="round"/>
+            <path d="M113 139 Q137 124 139 101" stroke="#2D2D2D" stroke-width="12" stroke-linecap="round"/>
+          </svg>
+
+          <span class="hero-heart-between">💗</span>
+
+          <svg class="hero-monkey white" viewBox="0 0 160 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="28" cy="79" rx="18" ry="20" fill="#F5F0E8"/>
+            <ellipse cx="28" cy="79" rx="10" ry="12" fill="#e8d5c0"/>
+            <ellipse cx="132" cy="79" rx="18" ry="20" fill="#F5F0E8"/>
+            <ellipse cx="132" cy="79" rx="10" ry="12" fill="#e8d5c0"/>
+            <ellipse cx="80" cy="76" rx="54" ry="52" fill="#F5F0E8"/>
+            <path d="M66 31 Q80 17 94 31 Q80 42 66 31Z" fill="#C9748A" opacity="0.82"/>
+            <circle cx="80" cy="30" r="5" fill="#a85570"/>
+            <ellipse cx="80" cy="94" rx="31" ry="23" fill="#e8d5c0"/>
+            <ellipse cx="59" cy="72" rx="12" ry="14" fill="#fff"/>
+            <ellipse cx="101" cy="72" rx="12" ry="14" fill="#fff"/>
+            <ellipse class="hero-pupil" data-origin-x="58" data-origin-y="74" cx="58" cy="74" rx="5.8" ry="6.8" fill="#4a3030"/>
+            <ellipse class="hero-pupil" data-origin-x="100" data-origin-y="74" cx="100" cy="74" rx="5.8" ry="6.8" fill="#4a3030"/>
+            <circle cx="61" cy="70" r="2.1" fill="#fff"/>
+            <circle cx="103" cy="70" r="2.1" fill="#fff"/>
+            <ellipse cx="44" cy="93" rx="12" ry="8" fill="#FFB6C1" opacity="0.82"/>
+            <ellipse cx="116" cy="93" rx="12" ry="8" fill="#FFB6C1" opacity="0.82"/>
+            <ellipse cx="80" cy="95" rx="8" ry="5" fill="#c9a08a"/>
+            <path d="M62 105 Q80 124 98 105" stroke="#c9a08a" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M48 61 Q58 52 69 57" stroke="#d8c6b7" stroke-width="4" stroke-linecap="round"/>
+            <path d="M91 57 Q102 52 112 61" stroke="#d8c6b7" stroke-width="4" stroke-linecap="round"/>
+            <ellipse cx="80" cy="152" rx="39" ry="25" fill="#F5F0E8"/>
+            <path d="M47 139 Q21 123 21 101" stroke="#F5F0E8" stroke-width="12" stroke-linecap="round"/>
+            <path d="M113 139 Q137 124 139 101" stroke="#F5F0E8" stroke-width="12" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <h1 id="hero-title">Feliz Dia dos Namorados, Maria Fernanda 💕</h1>
+        <p class="hero-subtitle">Hoje e sempre, meu macaquinho branquinho 🤍</p>
+        <p class="hero-greeting" id="dynamic-greeting">🌙 Boa noite, meu amor.</p>
+
+        <div class="hero-actions">
+          <button class="hero-main-button" id="open-heart-btn" type="button">Abrir meu coração ❤️</button>
+          <button class="infinite-button" id="infinite-love-btn" type="button">Clique aqui quando precisar lembrar ❤️</button>
+        </div>
+        <div id="random-reason" aria-live="polite"></div>
       </div>
     </section>
+
+    <div id="contador" aria-label="Contador do amor"></div>
 
     <div id="success-overlay" role="dialog" aria-modal="true" aria-hidden="true">
       <div class="success-monkeys" aria-hidden="true">
@@ -616,6 +967,12 @@
   </main>
 
   <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+  <div id="cinematic-transition" aria-hidden="true"></div>
+  <div class="music-widget" id="music-widget" aria-label="Controle de música">
+    <div class="equalizer" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <button class="music-toggle" id="music-toggle" type="button" aria-pressed="false" aria-label="Ligar música">🔇</button>
+  </div>
+  <div id="romantic-toast" role="status" aria-live="polite"></div>
 
   <script>
     function normalizeText(value) {
@@ -669,8 +1026,23 @@
     const hero = document.getElementById('hero');
     const hintDots = Array.from(document.querySelectorAll('.hint-dot'));
     const enterButton = document.getElementById('btn-entrar');
+    const cinematicTransition = document.getElementById('cinematic-transition');
+    const heroTitle = document.getElementById('hero-title');
+    const dynamicGreeting = document.getElementById('dynamic-greeting');
+    const openHeartButton = document.getElementById('open-heart-btn');
+    const infiniteLoveButton = document.getElementById('infinite-love-btn');
+    const randomReason = document.getElementById('random-reason');
+    const musicWidget = document.getElementById('music-widget');
+    const musicToggle = document.getElementById('music-toggle');
+    const romanticToast = document.getElementById('romantic-toast');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let attempts = 0;
     let autofilled = false;
+    let heroStarted = false;
+    let lastReasonIndex = -1;
+    let toastTimer;
+    let audioContext;
+    let musicNodes;
 
     function isAccepted(value, acceptedList, compactList) {
       const normalized = normalizeText(value);
@@ -728,6 +1100,306 @@
       }, 1900);
     }
 
+    function updateHeroCopy() {
+      const rawName = inputNome.value.trim();
+      const displayName = rawName && rawName.length <= 36 ? rawName : 'Maria Fernanda';
+      heroTitle.textContent = `Feliz Dia dos Namorados, ${displayName} 💕`;
+
+      const hour = new Date().getHours();
+      if (hour >= 5 && hour <= 11) {
+        dynamicGreeting.textContent = '☀️ Bom dia, minha melhor namorada do mundo.';
+      } else if (hour >= 12 && hour <= 17) {
+        dynamicGreeting.textContent = '🌸 Boa tarde, meu macaquinho branquinho.';
+      } else {
+        dynamicGreeting.textContent = '🌙 Boa noite, meu amor.';
+      }
+    }
+
+    function startHeroExperience() {
+      if (heroStarted) return;
+      heroStarted = true;
+      updateHeroCopy();
+      hero.classList.add('hero-revealed');
+      startHeartParticles(() => hero.classList.add('monkeys-visible'));
+      startRomanticToasts();
+    }
+
+    function startHeartParticles(onCharactersReveal) {
+      const canvas = document.getElementById('heart-particles-canvas');
+      const context = canvas.getContext('2d');
+      const colors = ['#FFB6C1', '#C9748A', '#D4AF37', '#FFF0F3', '#FFFFFF'];
+      const particles = [];
+      let width = 0;
+      let height = 0;
+      let density = 0;
+      let startTime = 0;
+      let revealed = false;
+      let pulseCounted = false;
+
+      function resize() {
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        width = canvas.clientWidth || window.innerWidth;
+        height = canvas.clientHeight || window.innerHeight;
+        canvas.width = width * ratio;
+        canvas.height = height * ratio;
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        density = Math.min(680, Math.max(190, Math.floor((width * height) / (reducedMotion ? 7600 : 3200))));
+      }
+
+      function heartPoint(index, total) {
+        const t = (Math.PI * 2 * index) / total;
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+        const scale = Math.min(width, height) / 36;
+        const centerGap = Math.abs(x) < 4.6 && y > -3 && y < 6;
+        const gapShift = centerGap ? (x < 0 ? -3.2 : 3.2) : 0;
+        return {
+          x: width / 2 + (x + gapShift) * scale,
+          y: height * 0.43 + y * scale,
+        };
+      }
+
+      function createParticles() {
+        particles.length = 0;
+        for (let i = 0; i < density; i++) {
+          const target = heartPoint(i, density);
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            targetX: target.x,
+            targetY: target.y,
+            size: 1 + Math.random() * 3,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            alpha: 0.38 + Math.random() * 0.58,
+            delay: Math.random() * 700,
+            dustSpeed: 0.22 + Math.random() * 0.75,
+            drift: -0.35 + Math.random() * 0.7,
+          });
+        }
+      }
+
+      function draw(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        context.clearRect(0, 0, width, height);
+        context.globalCompositeOperation = 'lighter';
+
+        const formationDuration = reducedMotion ? 450 : 4200;
+        const pulseStart = formationDuration + 250;
+        const pulseDuration = reducedMotion ? 300 : 2100;
+        const dustStart = pulseStart + pulseDuration;
+        const formationProgress = Math.min(1, Math.max(0, elapsed / formationDuration));
+        const eased = 1 - Math.pow(1 - formationProgress, 3);
+        let pulseScale = 1;
+
+        if (elapsed > pulseStart && elapsed < dustStart) {
+          const pulseProgress = (elapsed - pulseStart) / pulseDuration;
+          pulseScale = 1 + Math.sin(pulseProgress * Math.PI * 6) * 0.045;
+        }
+
+        if (!revealed && elapsed > formationDuration * 0.86) {
+          revealed = true;
+          onCharactersReveal();
+        }
+
+        if (!pulseCounted && elapsed > dustStart) {
+          pulseCounted = true;
+        }
+
+        particles.forEach((particle) => {
+          const x = particle.x + (particle.targetX - particle.x) * Math.max(0, eased - particle.delay / 5000);
+          const y = particle.y + (particle.targetY - particle.y) * Math.max(0, eased - particle.delay / 5000);
+          let drawX = width / 2 + (x - width / 2) * pulseScale;
+          let drawY = height * 0.43 + (y - height * 0.43) * pulseScale;
+          let alpha = particle.alpha;
+
+          if (pulseCounted) {
+            const dustAge = elapsed - dustStart;
+            drawY -= dustAge * particle.dustSpeed * 0.06;
+            drawX += Math.sin((dustAge + particle.delay) / 280) * 3 + particle.drift * dustAge * 0.025;
+            alpha *= Math.max(0, 1 - dustAge / 5200);
+          }
+
+          context.globalAlpha = alpha;
+          context.fillStyle = particle.color;
+          context.beginPath();
+          context.arc(drawX, drawY, particle.size, 0, Math.PI * 2);
+          context.fill();
+        });
+
+        context.globalAlpha = 1;
+        if (elapsed < dustStart + 5200) {
+          window.requestAnimationFrame(draw);
+        }
+      }
+
+      resize();
+      createParticles();
+      window.addEventListener('resize', () => {
+        resize();
+        createParticles();
+      }, { passive: true });
+      window.requestAnimationFrame(draw);
+    }
+
+    function addRipple(event) {
+      const button = event.currentTarget;
+      const rect = button.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      const size = Math.max(rect.width, rect.height);
+      ripple.className = 'ripple';
+      ripple.style.width = `${size}px`;
+      ripple.style.height = `${size}px`;
+      ripple.style.left = `${event.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${event.clientY - rect.top - size / 2}px`;
+      button.appendChild(ripple);
+      window.setTimeout(() => ripple.remove(), 700);
+    }
+
+    const loveReasons = [
+      '[MOTIVO_1]',
+      '[MOTIVO_2]',
+      '[MOTIVO_3]',
+      '[MOTIVO_4]',
+      '[MOTIVO_5]',
+      '[MOTIVO_6]',
+      '[MOTIVO_7]',
+      '[MOTIVO_8]',
+      '[MOTIVO_9]',
+      '[MOTIVO_10]',
+      '[MOTIVO_11]',
+      '[MOTIVO_12]',
+      '[MOTIVO_13]',
+      '[MOTIVO_14]',
+      '[MOTIVO_15]',
+      '[MOTIVO_16]',
+      '[MOTIVO_17]',
+      '[MOTIVO_18]',
+      '[MOTIVO_19]',
+      '[MOTIVO_20]',
+      '[MOTIVO_21]',
+      '[MOTIVO_22]',
+      '[MOTIVO_23]',
+      '[MOTIVO_24]',
+      '[MOTIVO_25]',
+      '[MOTIVO_26]',
+      '[MOTIVO_27]',
+      '[MOTIVO_28]',
+      '[MOTIVO_29]',
+      '[MOTIVO_30]',
+      '[MOTIVO_31]',
+      '[MOTIVO_32]',
+      '[MOTIVO_33]',
+      '[MOTIVO_34]',
+      '[MOTIVO_35]',
+      '[MOTIVO_36]',
+      '[MOTIVO_37]',
+      '[MOTIVO_38]',
+      '[MOTIVO_39]',
+      '[MOTIVO_40]',
+      '[MOTIVO_41]',
+      '[MOTIVO_42]',
+      '[MOTIVO_43]',
+      '[MOTIVO_44]',
+      '[MOTIVO_45]',
+      '[MOTIVO_46]',
+      '[MOTIVO_47]',
+      '[MOTIVO_48]',
+      '[MOTIVO_49]',
+      '[MOTIVO_50]'
+    ];
+
+    function showRandomReason() {
+      let nextIndex = Math.floor(Math.random() * loveReasons.length);
+      if (nextIndex === lastReasonIndex) nextIndex = (nextIndex + 1) % loveReasons.length;
+      lastReasonIndex = nextIndex;
+      randomReason.textContent = loveReasons[nextIndex];
+    }
+
+    function startRomanticToasts() {
+      const messages = [
+        '🚨 Alerta do sistema: nível de fofura excedido.',
+        '❤️ O macaquinho preto acabou de pensar em você.',
+        '💌 Atualização: você continua sendo o amor da minha vida.',
+        '🐒 Status: completamente apaixonado.'
+      ];
+      let index = 0;
+
+      function showToast() {
+        romanticToast.textContent = messages[index % messages.length];
+        romanticToast.classList.add('visible');
+        index += 1;
+        window.setTimeout(() => romanticToast.classList.remove('visible'), 5200);
+      }
+
+      window.clearInterval(toastTimer);
+      toastTimer = window.setInterval(showToast, 30000);
+    }
+
+    function followCursor(clientX, clientY, softness) {
+      document.querySelectorAll('.hero-pupil').forEach((pupil) => {
+        const svg = pupil.ownerSVGElement;
+        const rect = svg.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height * 0.45;
+        const dx = Math.max(-1, Math.min(1, (clientX - centerX) / rect.width));
+        const dy = Math.max(-1, Math.min(1, (clientY - centerY) / rect.height));
+        const originX = Number(pupil.dataset.originX);
+        const originY = Number(pupil.dataset.originY);
+        pupil.setAttribute('cx', originX + dx * softness);
+        pupil.setAttribute('cy', originY + dy * softness);
+      });
+    }
+
+    function createMusic() {
+      if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const master = audioContext.createGain();
+      const filter = audioContext.createBiquadFilter();
+      const oscA = audioContext.createOscillator();
+      const oscB = audioContext.createOscillator();
+      master.gain.value = 0.035;
+      filter.type = 'lowpass';
+      filter.frequency.value = 920;
+      oscA.type = 'sine';
+      oscB.type = 'triangle';
+      oscA.frequency.value = 261.63;
+      oscB.frequency.value = 392;
+      oscA.connect(filter);
+      oscB.connect(filter);
+      filter.connect(master);
+      master.connect(audioContext.destination);
+      oscA.start();
+      oscB.start();
+      musicNodes = { master, oscA, oscB };
+    }
+
+    function stopMusic() {
+      if (!musicNodes) return;
+      musicNodes.master.gain.setTargetAtTime(0, audioContext.currentTime, 0.05);
+      window.setTimeout(() => {
+        musicNodes.oscA.stop();
+        musicNodes.oscB.stop();
+        musicNodes = null;
+      }, 180);
+    }
+
+    function toggleMusic() {
+      if (musicNodes) {
+        stopMusic();
+        musicWidget.classList.remove('playing');
+        musicToggle.textContent = '🔇';
+        musicToggle.setAttribute('aria-pressed', 'false');
+        musicToggle.setAttribute('aria-label', 'Ligar música');
+        return;
+      }
+      createMusic();
+      if (audioContext.state === 'suspended') audioContext.resume();
+      musicWidget.classList.add('playing');
+      musicToggle.textContent = '🎵';
+      musicToggle.setAttribute('aria-pressed', 'true');
+      musicToggle.setAttribute('aria-label', 'Desligar música');
+    }
+
     function unlockPortal() {
       feedbackMsg.textContent = 'Correto! O coração do macaquinho abriu o caminho...';
       monkeyReaction.textContent = '💖';
@@ -736,17 +1408,23 @@
       successOverlay.setAttribute('aria-hidden', 'false');
       enterButton.disabled = true;
       enterButton.textContent = 'Portal aberto 💕';
+      updateHeroCopy();
       for (let i = 0; i < 12; i++) {
         window.setTimeout(() => createFloatingHeart(i % 3 === 0 ? '💖' : '💕'), i * 90);
       }
+      cinematicTransition.classList.add('active');
       window.setTimeout(() => {
         successOverlay.classList.remove('active');
         successOverlay.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('portal-locked');
         portal.classList.add('unlocked');
         hero.removeAttribute('aria-hidden');
-        window.setTimeout(() => hero.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
-      }, 1500);
+        hero.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+        window.setTimeout(() => {
+          cinematicTransition.classList.remove('active');
+          startHeroExperience();
+        }, 500);
+      }, 700);
     }
 
     function tentarEntrar(event) {
@@ -791,6 +1469,20 @@
     inputNome.addEventListener('input', checkEasterEggs);
     inputSenha.addEventListener('input', checkEasterEggs);
     accessForm.addEventListener('submit', tentarEntrar);
+    openHeartButton.addEventListener('click', (event) => {
+      addRipple(event);
+      document.getElementById('contador').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    });
+    infiniteLoveButton.addEventListener('click', (event) => {
+      addRipple(event);
+      showRandomReason();
+    });
+    musicToggle.addEventListener('click', toggleMusic);
+    window.addEventListener('pointermove', (event) => followCursor(event.clientX, event.clientY, 7), { passive: true });
+    window.addEventListener('touchstart', (event) => {
+      if (event.touches && event.touches[0]) followCursor(event.touches[0].clientX, event.touches[0].clientY, 3.5);
+    }, { passive: true });
+    updateHeroCopy();
     hero.setAttribute('aria-hidden', 'true');
 
     function createStars() {
