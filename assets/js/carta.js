@@ -1,0 +1,3 @@
+// === CARTA ===
+function initCarta() {
+}

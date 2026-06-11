@@ -1,0 +1,3 @@
+// === RASPADINHAS ===
+function initRaspadinhas() {
+}
