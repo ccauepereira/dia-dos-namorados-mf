@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal do Amor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --vinho: #3D0C11;
+      --vinho2: #5a1220;
+      --rosa: #C9748A;
+      --rosa2: #e8a0b0;
+      --creme: #FFF0F3;
+      --dourado: #D4AF37;
+      --macaco-preto: #2D2D2D;
+      --macaco-branco: #F5F0E8;
+      --bochecha-p: #C9748A;
+      --bochecha-b: #FFB6C1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: radial-gradient(circle at top, rgba(255, 240, 243, 0.14), transparent 28%),
+        linear-gradient(180deg, #20050a 0%, #120408 40%, #000000 100%);
+      color: var(--creme);
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+    }
+
+    #stars-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      filter: blur(0.8px);
+      animation: starTwinkle 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes starTwinkle {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+
+    #main-content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    #portal {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .portal-card {
+      background: rgba(255, 240, 243, 0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(201, 116, 138, 0.3);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 460px;
+      text-align: center;
+      box-shadow: 0 8px 48px rgba(61, 12, 17, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .portal-card::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--rosa), var(--dourado), var(--rosa), transparent);
+      border-radius: 28px 28px 0 0;
+    }
+
+    .portal-monkeys {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .monkey-svg {
+      transition: transform 0.3s ease;
+    }
+
+    .portal-monkeys .heart-door-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 56px;
+    }
+
+    .portal-lock {
+      font-size: 2rem;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .portal-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      color: var(--creme);
+      margin: 0.2rem 0 0.35rem;
+      line-height: 1.2;
+    }
+
+    .portal-subtitle {
+      font-size: 0.92rem;
+      color: var(--rosa2);
+      margin-bottom: 1.6rem;
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--rosa);
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+    }
+
+    .input-group input {
+      width: 100%;
+      background: rgba(255, 240, 243, 0.08);
+      border: 1px solid rgba(201, 116, 138, 0.35);
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      color: var(--creme);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.25s, background 0.25s;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 240, 243, 0.35);
+      font-weight: 300;
+    }
+
+    .input-group input:focus {
+      border-color: var(--rosa);
+      background: rgba(255, 240, 243, 0.16);
+    }
+
+    .btn-entrar {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 0.95rem;
+      background: linear-gradient(135deg, var(--rosa), #a8546a);
+      border: none;
+      border-radius: 14px;
+      color: #fff;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+      box-shadow: 0 6px 22px rgba(201, 116, 138, 0.55);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-entrar:hover {
+      transform: translateY(-1px);
+      opacity: 1;
+    }
+
+    .btn-entrar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0);
+      transition: background 0.2s;
+    }
+
+    .btn-entrar:focus-visible {
+      outline: 2px solid var(--dourado);
+      outline-offset: 3px;
+    }
+
+    #monkey-reaction {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      min-height: 2.5rem;
+      transition: opacity 0.3s;
+    }
+
+    #feedback-msg {
+      min-height: 2.8rem;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: var(--rosa2);
+      padding: 0 0.5rem;
+      transition: opacity 0.3s;
+    }
+
+    .easter-msg {
+      font-size: 0.82rem;
+      color: var(--dourado);
+      font-style: italic;
+      margin-top: 0.4rem;
+      min-height: 1.2rem;
+    }
+
+    .floating-heart {
+      position: fixed;
+      pointer-events: none;
+      font-size: 1.1rem;
+      animation: floatHeart linear forwards;
+      z-index: 5;
+      opacity: 0;
+    }
+
+    @keyframes floatHeart {
+      0% { opacity: 0; transform: translateY(0) scale(0.8); }
+      10% { opacity: 0.7; }
+      85% { opacity: 0.4; }
+      100% { opacity: 0; transform: translateY(-60vh) scale(1.1); }
+    }
+
+    #success-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(61, 12, 17, 0.92);
+      z-index: 50;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      backdrop-filter: blur(4px);
+    }
+
+    #success-overlay.active {
+      display: flex;
+    }
+
+    .success-monkeys {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      animation: celebrateMonkeys 0.6s ease infinite alternate;
+    }
+
+    @keyframes celebrateMonkeys {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+
+    .success-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.8rem, 6vw, 2.4rem);
+      color: var(--creme);
+      margin-bottom: 0.5rem;
+    }
+
+    .success-sub {
+      font-size: 0.95rem;
+      color: var(--rosa2);
+      font-weight: 300;
+      max-width: 24rem;
+      line-height: 1.5;
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 49;
+      display: none;
+    }
+
+    .fade-out {
+      animation: fadeOut 0.8s ease forwards;
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; pointer-events: none; }
+    }
+
+    #hero {
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero-content h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      color: var(--creme);
+      margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+      color: var(--rosa2);
+      font-size: 1rem;
+      font-weight: 300;
+      max-width: 30rem;
+      margin: 0 auto;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="stars-canvas" aria-hidden="true"></div>
+
+  <main id="main-content">
+    <section id="portal">
+      <div class="portal-card" role="region" aria-labelledby="portal-title">
+        <div class="portal-monkeys" aria-hidden="true">
+          <svg class="monkey-svg" id="monkey-preto" width="80" height="90" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="12" cy="46" rx="9" ry="10" fill="#2D2D2D"/>
+            <ellipse cx="12" cy="46" rx="5.5" ry="6.5" fill="#5a3a2a"/>
+            <ellipse cx="68" cy="46" rx="9" ry="10" fill="#2D2D2D"/>
+            <ellipse cx="68" cy="46" rx="5.5" ry="6.5" fill="#5a3a2a"/>
+            <ellipse cx="40" cy="42" rx="28" ry="27" fill="#2D2D2D"/>
+            <ellipse cx="40" cy="32" rx="16" ry="10" fill="#3d3030" opacity="0.5"/>
+            <ellipse cx="40" cy="52" rx="15" ry="11" fill="#5a3a2a"/>
+            <ellipse cx="30" cy="40" rx="5.5" ry="6" fill="white"/>
+            <ellipse cx="50" cy="40" rx="5.5" ry="6" fill="white"/>
+            <ellipse cx="31" cy="41" rx="3.2" ry="3.5" fill="#1a1a1a"/>
+            <ellipse cx="51" cy="41" rx="3.2" ry="3.5" fill="#1a1a1a"/>
+            <circle cx="32.5" cy="39.5" r="1.2" fill="white"/>
+            <circle cx="52.5" cy="39.5" r="1.2" fill="white"/>
+            <ellipse cx="22" cy="50" rx="6" ry="4" fill="#C9748A" opacity="0.55"/>
+            <ellipse cx="58" cy="50" rx="6" ry="4" fill="#C9748A" opacity="0.55"/>
+            <ellipse cx="40" cy="52" rx="4.5" ry="3" fill="#3d2a1a"/>
+            <ellipse cx="38.8" cy="51.2" rx="1.5" ry="1" fill="#6b4030" opacity="0.7"/>
+            <ellipse cx="41.2" cy="51.2" rx="1.5" ry="1" fill="#6b4030" opacity="0.7"/>
+            <path id="mouth-preto" d="M33 57 Q40 63 47 57" stroke="#3d2a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <ellipse cx="40" cy="82" rx="20" ry="14" fill="#2D2D2D"/>
+            <ellipse cx="25" cy="78" rx="5" ry="4" fill="#2D2D2D"/>
+            <ellipse cx="55" cy="78" rx="5" ry="4" fill="#2D2D2D"/>
+          </svg>
+
+          <div class="heart-door-wrap" aria-hidden="true">
+            <svg width="44" height="56" viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M22 52 C2 38 2 20 10 14 C14 11 18 12 22 16 C26 12 30 11 34 14 C42 20 42 38 22 52Z" fill="#5a1220" stroke="#C9748A" stroke-width="1.5"/>
+              <circle cx="22" cy="30" r="4.5" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+              <rect x="20" y="30" width="4" height="5" rx="1" fill="#D4AF37" opacity="0.8"/>
+              <path d="M12 20 Q14 18 16 22" stroke="rgba(255,240,243,0.2)" stroke-width="1" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <svg class="monkey-svg" id="monkey-branco" width="80" height="90" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="12" cy="46" rx="9" ry="10" fill="#F5F0E8"/>
+            <ellipse cx="12" cy="46" rx="5.5" ry="6.5" fill="#e8d5c0"/>
+            <ellipse cx="68" cy="46" rx="9" ry="10" fill="#F5F0E8"/>
+            <ellipse cx="68" cy="46" rx="5.5" ry="6.5" fill="#e8d5c0"/>
+            <ellipse cx="40" cy="42" rx="28" ry="27" fill="#F5F0E8"/>
+            <ellipse cx="40" cy="52" rx="15" ry="11" fill="#e8d5c0"/>
+            <ellipse cx="30" cy="40" rx="5.5" ry="6" fill="white"/>
+            <ellipse cx="50" cy="40" rx="5.5" ry="6" fill="white"/>
+            <ellipse cx="31" cy="41" rx="3.2" ry="3.5" fill="#4a3030"/>
+            <ellipse cx="51" cy="41" rx="3.2" ry="3.5" fill="#4a3030"/>
+            <circle cx="32.5" cy="39.5" r="1.2" fill="white"/>
+            <circle cx="52.5" cy="39.5" r="1.2" fill="white"/>
+            <line x1="26" y1="35" x2="24" y2="33" stroke="#4a3030" stroke-width="1" stroke-linecap="round"/>
+            <line x1="29" y1="34" x2="28" y2="32" stroke="#4a3030" stroke-width="1" stroke-linecap="round"/>
+            <line x1="32" y1="34" x2="32" y2="32" stroke="#4a3030" stroke-width="1" stroke-linecap="round"/>
+            <line x1="46" y1="34" x2="46" y2="32" stroke="#4a3030" stroke-width="1" stroke-linecap="round"/>
+            <line x1="49" y1="34" x2="50" y2="32" stroke="#4a3030" stroke-width="1" stroke-linecap="round"/>
+            <line x1="52" y1="35" x2="54" y2="33" stroke="#4a3030" stroke-width="1" stroke-linecap="round"/>
+            <ellipse cx="22" cy="50" rx="6" ry="4" fill="#FFB6C1" opacity="0.6"/>
+            <ellipse cx="58" cy="50" rx="6" ry="4" fill="#FFB6C1" opacity="0.6"/>
+            <ellipse cx="40" cy="52" rx="4.5" ry="3" fill="#c9a08a"/>
+            <ellipse cx="38.8" cy="51.2" rx="1.5" ry="1" fill="#d4b090" opacity="0.7"/>
+            <ellipse cx="41.2" cy="51.2" rx="1.5" ry="1" fill="#d4b090" opacity="0.7"/>
+            <path id="mouth-branco" d="M33 57 Q40 64 47 57" stroke="#c9a08a" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M34 16 Q40 12 46 16 Q40 20 34 16Z" fill="#C9748A" opacity="0.8"/>
+            <circle cx="40" cy="16" r="2.5" fill="#a85570"/>
+            <ellipse cx="40" cy="82" rx="20" ry="14" fill="#F5F0E8"/>
+            <ellipse cx="25" cy="78" rx="5" ry="4" fill="#F5F0E8"/>
+            <ellipse cx="55" cy="78" rx="5" ry="4" fill="#F5F0E8"/>
+          </svg>
+        </div>
+
+        <div id="monkey-reaction" aria-live="polite" aria-label="Reação do macaquinho"></div>
+        <span class="portal-lock" aria-hidden="true">🔒</span>
+        <h1 class="portal-title" id="portal-title">Entrada Exclusiva</h1>
+        <p class="portal-subtitle">Apenas a melhor namorada do mundo pode entrar...<br><em>Será que você consegue desbloquear o coração do macaquinho preto? 🐒🖤</em></p>
+
+        <form id="access-form" aria-label="Formulário de acesso">
+          <div class="input-group">
+            <label for="input-nome">Nome da melhor namorada do universo</label>
+            <input type="text" id="input-nome" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Digite o nome da melhor namorada do universo..." aria-label="Nome da melhor namorada do universo" />
+          </div>
+
+          <div class="input-group">
+            <label for="input-senha">Senha secreta</label>
+            <input type="password" id="input-senha" autocomplete="off" placeholder="Digite a senha secreta do nosso amor..." aria-label="Senha secreta" />
+          </div>
+
+          <div id="feedback-msg" aria-live="assertive" role="alert"></div>
+          <div class="easter-msg" id="easter-msg" aria-live="polite"></div>
+
+          <button class="btn-entrar" type="submit" id="btn-entrar">Abrir meu coração 💕</button>
+        </form>
+
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="margin: 1rem auto 0; display:block;" aria-hidden="true">
+          <path d="M18 32 C2 22 2 6 10 4 C13.5 3 16 5 18 8 C20 5 22.5 3 26 4 C34 6 34 22 18 32Z" fill="#C9748A"/>
+        </svg>
+
+        <svg width="70" height="80" viewBox="0 0 80 90" fill="none" style="margin: 1rem auto 0; display:block;" aria-hidden="true">
+          <ellipse cx="12" cy="46" rx="9" ry="10" fill="#F5F0E8"/>
+          <ellipse cx="12" cy="46" rx="5.5" ry="6.5" fill="#e8d5c0"/>
+          <ellipse cx="68" cy="46" rx="9" ry="10" fill="#F5F0E8"/>
+          <ellipse cx="68" cy="46" rx="5.5" ry="6.5" fill="#e8d5c0"/>
+          <ellipse cx="40" cy="42" rx="28" ry="27" fill="#F5F0E8"/>
+          <ellipse cx="40" cy="52" rx="15" ry="11" fill="#e8d5c0"/>
+          <ellipse cx="30" cy="40" rx="5.5" ry="6" fill="white"/>
+          <ellipse cx="50" cy="40" rx="5.5" ry="6" fill="white"/>
+          <ellipse cx="31" cy="41" rx="3.2" ry="3.5" fill="#4a3030"/>
+          <ellipse cx="51" cy="41" rx="3.2" ry="3.5" fill="#4a3030"/>
+          <circle cx="32.5" cy="39.5" r="1.2" fill="white"/>
+          <circle cx="52.5" cy="39.5" r="1.2" fill="white"/>
+          <ellipse cx="22" cy="50" rx="6" ry="4" fill="#FFB6C1" opacity="0.7"/>
+          <ellipse cx="58" cy="50" rx="6" ry="4" fill="#FFB6C1" opacity="0.7"/>
+          <path d="M34 16 Q40 12 46 16 Q40 20 34 16Z" fill="#C9748A" opacity="0.8"/>
+          <circle cx="40" cy="16" r="2.5" fill="#a85570"/>
+          <ellipse cx="40" cy="52" rx="4.5" ry="3" fill="#c9a08a"/>
+          <path d="M30 56 Q40 67 50 56" stroke="#c9a08a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <line x1="18" y1="66" x2="8" y2="52" stroke="#F5F0E8" stroke-width="6" stroke-linecap="round"/>
+          <line x1="62" y1="66" x2="72" y2="52" stroke="#F5F0E8" stroke-width="6" stroke-linecap="round"/>
+          <ellipse cx="40" cy="82" rx="20" ry="14" fill="#F5F0E8"/>
+        </svg>
+      </div>
+    </section>
+
+    <section id="hero">
+      <div class="hero-content">
+        <h1>O amor está mais perto do que nunca</h1>
+        <p>Ao abrir o portal, você encontra carinho, surpresa e uma mensagem especial só para vocês.</p>
+      </div>
+    </section>
+
+    <div id="success-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="success-monkeys" aria-hidden="true">
+        <span>🐒</span>
+        <span>🎉</span>
+        <span>💕</span>
+      </div>
+      <h2 class="success-title">Portal desbloqueado!</h2>
+      <p class="success-sub">Nosso amor venceu a senha. Agora é hora de celebrar juntos.</p>
+    </div>
+  </main>
+
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <script>
+    function normalizeText(value) {
+      return value.trim().toLowerCase().replace(/ç/g, 'c').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ');
+    }
+
+    const acceptedNames = ['Mf', 'Maria Fernanda', 'Bessa', 'Mfbessa', 'mf bessa', 'maria fernanda', 'mariafernanda'].map(normalizeText);
+    const acceptedPasswords = ['teamo meu amor', 'cutie cutie', 'agentefazamorportelepatia', 'agostosona'].map(normalizeText);
+
+    const inputNome = document.getElementById('input-nome');
+    const inputSenha = document.getElementById('input-senha');
+    const feedbackMsg = document.getElementById('feedback-msg');
+    const easterMsg = document.getElementById('easter-msg');
+    const monkeyReaction = document.getElementById('monkey-reaction');
+    const successOverlay = document.getElementById('success-overlay');
+    const accessForm = document.getElementById('access-form');
+
+    function tentarEntrar(event) {
+      if (event) event.preventDefault();
+      const nome = normalizeText(inputNome.value);
+      const senha = normalizeText(inputSenha.value);
+
+      if (!nome || !senha) {
+        feedbackMsg.textContent = 'Preencha seu nome e a senha secreta com carinho.';
+        monkeyReaction.textContent = '🤔';
+        easterMsg.textContent = '';
+        return;
+      }
+
+      if (acceptedNames.includes(nome) && acceptedPasswords.includes(senha)) {
+        feedbackMsg.textContent = 'Correto! O coração do macaquinho está quase aberto...';
+        monkeyReaction.textContent = '💖';
+        easterMsg.textContent = 'Você venceu o portal do amor!';
+        successOverlay.classList.add('active');
+        document.getElementById('access-form').querySelector('button').disabled = true;
+        return;
+      }
+
+      if (acceptedNames.includes(nome)) {
+        feedbackMsg.textContent = 'O nome está certo, mas a senha ainda está escondida. Tente de novo.';
+        monkeyReaction.textContent = '😅';
+        easterMsg.textContent = 'Dica: a senha é simples e cheia de carinho.';
+        return;
+      }
+
+      feedbackMsg.textContent = 'Esse nome não combina com o portal. Tente novamente com mais amor.';
+      monkeyReaction.textContent = '😐';
+      easterMsg.textContent = '';
+    }
+
+    accessForm.addEventListener('submit', tentarEntrar);
+
+    function createStars() {
+      const starsCanvas = document.getElementById('stars-canvas');
+      const starCount = 35;
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('span');
+        star.className = 'star';
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.opacity = `${Math.random() * 0.9}`;
+        star.style.width = `${1 + Math.random() * 2}px`;
+        star.style.height = star.style.width;
+        star.style.animationDuration = `${2 + Math.random() * 3}s`;
+        starsCanvas.appendChild(star);
+      }
+    }
+
+    createStars();
+  </script>
+</body>
+</html>
