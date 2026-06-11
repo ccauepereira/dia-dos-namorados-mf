@@ -23,7 +23,7 @@ function initPremiumFinale() {
   let lastFocusedElement = null;
   let finaleStarted = false;
 
-  if (!buyButton || !modal || !modalPanel || !approveButton || !approvalCard || !finaleOverlay || !finaleCanvas || !finalMessage) {
+  if (!buyButton || !modal || !modalPanel || !approveButton || !approvalCard || !finaleOverlay || !finaleCanvas || !finalMessage || !paymentMethods) {
     return;
   }
 
@@ -37,6 +37,8 @@ function initPremiumFinale() {
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+
+    syncSelectedPayment();
 
     const focusable = getFocusableElements();
     (focusable[0] || modalPanel).focus();
@@ -80,13 +82,18 @@ function initPremiumFinale() {
     }
   }
 
+  function syncSelectedPayment() {
+    paymentMethods.querySelectorAll('label').forEach((label) => {
+      const input = label.querySelector('input[name="premium-payment"]');
+      label.classList.toggle('selected', Boolean(input?.checked));
+    });
+  }
+
   function updateSelectedPayment(event) {
     const input = event.target.closest('input[name="premium-payment"]');
-    if (!input || !paymentMethods) return;
+    if (!input) return;
 
-    paymentMethods.querySelectorAll('label').forEach((label) => {
-      label.classList.toggle('selected', label.contains(input));
-    });
+    syncSelectedPayment();
   }
 
   function triggerApproval() {
@@ -405,6 +412,8 @@ function initPremiumFinale() {
     }
     return items;
   }
+
+  syncSelectedPayment();
 
   buyButton.addEventListener('click', openCheckoutModal);
   approveButton.addEventListener('click', triggerApproval);
