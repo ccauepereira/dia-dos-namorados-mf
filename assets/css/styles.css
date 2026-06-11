@@ -1214,3 +1214,56 @@
     transform: none;
   }
 }
+
+/* FIX: Premium Finale checkout payment methods visibility */
+.premium-payment-methods {
+  display: grid !important;
+  gap: 0.85rem !important;
+  margin: 1.4rem 0 !important;
+  padding: 1rem !important;
+  border: 1px solid rgba(212, 175, 55, 0.35) !important;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.premium-payment-methods legend {
+  display: block !important;
+  color: #D4AF37 !important;
+  font-weight: 800 !important;
+  padding: 0 0.5rem !important;
+  margin-bottom: 0.6rem !important;
+}
+
+.premium-payment-methods label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
+  min-height: 44px !important;
+  padding: 0.8rem 1rem !important;
+  border: 1px solid rgba(212, 175, 55, 0.35) !important;
+  border-radius: 999px !important;
+  background: rgba(0, 0, 0, 0.25) !important;
+  color: #fff !important;
+  cursor: pointer !important;
+}
+
+.premium-payment-methods input {
+  display: inline-block !important;
+  width: 18px !important;
+  height: 18px !important;
+  accent-color: #D4AF37 !important;
+}
+
+.premium-finale-modal,
+.premium-finale-modal-content,
+.premium-finale-modal-card,
+.premium-finale-checkout-grid {
+  overflow: visible !important;
+}
+
+.premium-finale-modal-card,
+.premium-finale-modal-content {
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+

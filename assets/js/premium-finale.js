@@ -210,7 +210,7 @@ const APPROVAL_STATUS_LABEL = 'Status:'; // ✏️ EDIT HERE
               <ul class="premium-finale-benefits">
                 ${CARD_BENEFITS.map((benefit) => `<li>${escapeHTML(BENEFIT_PREFIX)} ${escapeHTML(benefit)}</li>`).join('')}
               </ul>
-              <fieldset class="premium-finale-payments">
+              <fieldset class="premium-payment-methods">
                 <legend>${escapeHTML(PAYMENT_TITLE)}</legend>
                 ${PAYMENT_METHODS.map((method, index) => `
                   <label class="${index === 0 ? 'selected' : ''}">
@@ -860,7 +860,7 @@ const APPROVAL_STATUS_LABEL = 'Status:'; // ✏️ EDIT HERE
 
       .premium-finale-traits li,
       .premium-finale-benefits li,
-      .premium-finale-payments label {
+      .premium-payment-methods label {
         border: 1px solid rgba(212, 175, 55, 0.32);
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.08);
@@ -970,7 +970,7 @@ const APPROVAL_STATUS_LABEL = 'Status:'; // ✏️ EDIT HERE
       .premium-finale-card-details dt,
       .premium-finale-approval dt,
       .premium-finale-checkout-info h3,
-      .premium-finale-payments legend {
+      .premium-payment-methods legend {
         color: var(--dourado);
         font-weight: 800;
       }
@@ -986,7 +986,7 @@ const APPROVAL_STATUS_LABEL = 'Status:'; // ✏️ EDIT HERE
         margin-bottom: 1.25rem;
       }
 
-      .premium-finale-payments {
+      .premium-payment-methods {
         display: grid;
         gap: 0.7rem;
         margin: 0;
@@ -994,14 +994,14 @@ const APPROVAL_STATUS_LABEL = 'Status:'; // ✏️ EDIT HERE
         border: 0;
       }
 
-      .premium-finale-payments label {
+      .premium-payment-methods label {
         display: flex;
         align-items: center;
         gap: 0.55rem;
         min-height: 44px;
       }
 
-      .premium-finale-payments label.selected {
+      .premium-payment-methods label.selected {
         border-color: var(--dourado);
         box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
       }
@@ -1157,5 +1157,317 @@ const APPROVAL_STATUS_LABEL = 'Status:'; // ✏️ EDIT HERE
   window.addEventListener('beforeunload', () => {
     window.clearTimeout(toastTimer);
     window.clearTimeout(toastHideTimer);
+  });
+})();
+
+/* HOTFIX: force Buy Now / Comprar Agora to open the static checkout modal with payment methods */
+(() => {
+  const modal = document.getElementById('premium-checkout-modal');
+
+  if (!modal) return;
+
+  let lastFocusedElement = null;
+
+  const focusableSelector = [
+    'button',
+    '[href]',
+    'input',
+    'select',
+    'textarea',
+    '[tabindex]:not([tabindex="-1"])'
+  ].join(',');
+
+  function getFocusableElements() {
+    return Array.from(modal.querySelectorAll(focusableSelector))
+      .filter((el) => !el.disabled && el.offsetParent !== null);
+  }
+
+  function openStaticPremiumModal() {
+    lastFocusedElement = document.activeElement;
+
+    modal.style.display = 'flex';
+    modal.classList.add('is-open', 'show', 'active');
+    modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-modal', 'true');
+
+    document.body.style.overflow = 'hidden';
+
+    const firstFocusable = getFocusableElements()[0];
+    if (firstFocusable) firstFocusable.focus();
+  }
+
+  function closeStaticPremiumModal() {
+    modal.style.display = 'none';
+    modal.classList.remove('is-open', 'show', 'active');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.removeAttribute('aria-modal');
+
+    document.body.style.overflow = '';
+
+    if (lastFocusedElement) lastFocusedElement.focus();
+  }
+
+  document.addEventListener(
+    'click',
+    (event) => {
+      const buyButton = event.target.closest(
+        '.premium-finale-buy, #premium-buy-now, [data-premium-buy], [data-premium-open]'
+      );
+
+      if (buyButton) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        openStaticPremiumModal();
+        return;
+      }
+
+      const closeButton = event.target.closest('[data-premium-close]');
+
+      if (closeButton || event.target === modal) {
+        event.preventDefault();
+        closeStaticPremiumModal();
+      }
+    },
+    true
+  );
+
+  document.addEventListener('keydown', (event) => {
+    if (modal.style.display !== 'flex') return;
+
+    if (event.key === 'Escape') {
+      closeStaticPremiumModal();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const focusableElements = getFocusableElements();
+    if (!focusableElements.length) return;
+
+    const first = focusableElements[0];
+    const last = focusableElements[focusableElements.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    }
+
+    if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+})();
+
+/* HOTFIX 2: open the real checkout modal when clicking Buy Now / Comprar Agora */
+(() => {
+  const modal = document.getElementById('premium-checkout-modal');
+
+  if (!modal) {
+    console.warn('[Premium Finale] Modal #premium-checkout-modal não encontrado.');
+    return;
+  }
+
+  let lastFocus = null;
+
+  function openRealCheckoutModal() {
+    lastFocus = document.activeElement;
+
+    modal.style.display = 'flex';
+    modal.style.position = 'fixed';
+    modal.style.inset = '0';
+    modal.style.zIndex = '999999';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.padding = '1rem';
+    modal.style.background = 'rgba(0, 0, 0, 0.72)';
+
+    modal.classList.add('is-open', 'active', 'show');
+    modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-modal', 'true');
+
+    document.body.style.overflow = 'hidden';
+
+    const panel = modal.querySelector('.premium-modal-panel, .premium-checkout-content, .premium-modal-card');
+    if (panel) {
+      panel.style.width = 'min(920px, 96vw)';
+      panel.style.maxHeight = '90vh';
+      panel.style.overflowY = 'auto';
+    }
+
+    const payments = modal.querySelector('.premium-payment-methods');
+    if (payments) {
+      payments.style.display = 'grid';
+      payments.style.visibility = 'visible';
+      payments.style.opacity = '1';
+      payments.style.width = '100%';
+      payments.style.height = 'auto';
+    }
+
+    const firstInput = modal.querySelector('input, button, [href], [tabindex]:not([tabindex="-1"])');
+    if (firstInput) firstInput.focus();
+  }
+
+  function closeRealCheckoutModal() {
+    modal.style.display = 'none';
+    modal.classList.remove('is-open', 'active', 'show');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.removeAttribute('aria-modal');
+    document.body.style.overflow = '';
+
+    if (lastFocus) lastFocus.focus();
+  }
+
+  document.addEventListener(
+    'click',
+    (event) => {
+      const clickable = event.target.closest('button, a');
+
+      if (!clickable) return;
+
+      const text = clickable.textContent.trim().toLowerCase();
+
+      if (
+        text.includes('buy now') ||
+        text.includes('comprar agora') ||
+        text.includes('🛒')
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        openRealCheckoutModal();
+        return;
+      }
+
+      if (
+        clickable.matches('[data-premium-close]') ||
+        text === 'voltar' ||
+        text === 'return' ||
+        text === '×'
+      ) {
+        event.preventDefault();
+        closeRealCheckoutModal();
+      }
+    },
+    true
+  );
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) closeRealCheckoutModal();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (modal.style.display !== 'flex') return;
+
+    if (event.key === 'Escape') {
+      closeRealCheckoutModal();
+    }
+  });
+})();
+
+/* HOTFIX 2: open the real checkout modal when clicking Buy Now / Comprar Agora */
+(() => {
+  const modal = document.getElementById('premium-checkout-modal');
+
+  if (!modal) {
+    console.warn('[Premium Finale] Modal #premium-checkout-modal não encontrado.');
+    return;
+  }
+
+  let lastFocus = null;
+
+  function openRealCheckoutModal() {
+    lastFocus = document.activeElement;
+
+    modal.style.display = 'flex';
+    modal.style.position = 'fixed';
+    modal.style.inset = '0';
+    modal.style.zIndex = '999999';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.padding = '1rem';
+    modal.style.background = 'rgba(0, 0, 0, 0.72)';
+
+    modal.classList.add('is-open', 'active', 'show');
+    modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-modal', 'true');
+
+    document.body.style.overflow = 'hidden';
+
+    const panel = modal.querySelector('.premium-modal-panel, .premium-checkout-content, .premium-modal-card');
+    if (panel) {
+      panel.style.width = 'min(920px, 96vw)';
+      panel.style.maxHeight = '90vh';
+      panel.style.overflowY = 'auto';
+    }
+
+    const payments = modal.querySelector('.premium-payment-methods');
+    if (payments) {
+      payments.style.display = 'grid';
+      payments.style.visibility = 'visible';
+      payments.style.opacity = '1';
+      payments.style.width = '100%';
+      payments.style.height = 'auto';
+    }
+
+    const firstInput = modal.querySelector('input, button, [href], [tabindex]:not([tabindex="-1"])');
+    if (firstInput) firstInput.focus();
+  }
+
+  function closeRealCheckoutModal() {
+    modal.style.display = 'none';
+    modal.classList.remove('is-open', 'active', 'show');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.removeAttribute('aria-modal');
+    document.body.style.overflow = '';
+
+    if (lastFocus) lastFocus.focus();
+  }
+
+  document.addEventListener(
+    'click',
+    (event) => {
+      const clickable = event.target.closest('button, a');
+
+      if (!clickable) return;
+
+      const text = clickable.textContent.trim().toLowerCase();
+
+      if (
+        text.includes('buy now') ||
+        text.includes('comprar agora') ||
+        text.includes('🛒')
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        openRealCheckoutModal();
+        return;
+      }
+
+      if (
+        clickable.matches('[data-premium-close]') ||
+        text === 'voltar' ||
+        text === 'return' ||
+        text === '×'
+      ) {
+        event.preventDefault();
+        closeRealCheckoutModal();
+      }
+    },
+    true
+  );
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) closeRealCheckoutModal();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (modal.style.display !== 'flex') return;
+
+    if (event.key === 'Escape') {
+      closeRealCheckoutModal();
+    }
   });
 })();
