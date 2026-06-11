@@ -1029,117 +1029,118 @@ canvas[role="img"] {
     <!-- SEÇÃO 8: PREMIUM FINALE -->
     <section class="parte-2b-section premium-finale-section" id="section-premium-finale" aria-labelledby="premium-finale-title">
       <div class="parte-2b-wrap premium-finale-wrap">
-        <article class="premium-finale-card" aria-label="Premium Finale">
-          <div class="premium-finale-media">
+        <div class="premium-product-card">
+          <div class="premium-product-media">
+            <!-- Developer note: add the provided image at assets/images/fernanda.png if it is missing from the repository. -->
             <img
               src="assets/images/fernanda.png"
               alt="BARBIE FERNANDA Limited Edition collectible"
               loading="lazy"
             />
           </div>
-          <div class="premium-finale-info">
-            <p class="premium-finale-eyebrow">Premium Finale</p>
-            <p class="premium-finale-intro">Porque nenhuma loja do mundo conseguiria vender alguém tão especial.</p>
-            <h2 id="premium-finale-title">BARBIE FERNANDA™ — Edição Limitada</h2>
-            <p class="premium-finale-subtitle">&quot;The strongest, most beautiful and most incredible woman in the universe.&quot;</p>
-            <div class="premium-finale-rating" aria-label="Avaliação de cinco estrelas">
-              <span aria-hidden="true">★★★★★</span>
-              <span>(∞ avaliações do namorado)</span>
-            </div>
-            <ul class="premium-finale-traits" aria-label="Características da edição limitada">
-              <li>Forte</li>
-              <li>Determinada</li>
-              <li>Parceira</li>
-              <li>Engraçada</li>
-              <li>Dona do sorriso mais bonito do mundo</li>
-              <li>Minha pessoa favorita</li>
-            </ul>
-            <p class="premium-finale-price">R$ Incalculável ❤️</p>
-            <button class="final-btn premium-finale-buy" id="premium-buy-btn" type="button">🛒 Comprar Agora</button>
-          </div>
-        </article>
 
-        <article class="premium-finale-approval" id="premium-approval-card" aria-live="polite" hidden>
-          <h3>✔ Transaction Approved</h3>
-          <p>Purchase approved.<br />This collectible already belongs to the luckiest boyfriend alive.</p>
-          <dl>
-            <div>
-              <dt>Available Limit:</dt>
-              <dd>∞ Love<br />∞ Affection<br />∞ Patience</dd>
-            </div>
-            <div>
-              <dt>Status:</dt>
-              <dd>Already owned by her boyfriend's heart.</dd>
-            </div>
-          </dl>
-        </article>
+          <div class="premium-product-info">
+            <p class="premium-eyebrow">Premium Collectible</p>
+            <h2 id="premium-finale-title">BARBIE FERNANDA™ Limited Edition</h2>
+            <p class="premium-subtitle">&quot;The strongest, most beautiful and most incredible woman in the universe.&quot;</p>
+            <div class="premium-rating" aria-label="Rated five out of five stars">★★★★★</div>
+            <ul class="premium-traits" aria-label="Collectible traits">
+              <li>Gorgeous</li>
+              <li>Strong</li>
+              <li>Caring</li>
+              <li>Funny</li>
+              <li>My favorite person</li>
+            </ul>
+            <p class="premium-price">Priceless ❤️</p>
+            <button class="premium-buy-btn" id="premium-buy-btn" type="button">Buy Now</button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <div class="premium-checkout-modal" id="premium-checkout-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="premium-checkout-title" aria-describedby="premium-checkout-subtitle">
+    <div class="premium-checkout-modal" id="premium-checkout-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="premium-checkout-title">
       <div class="premium-modal-backdrop" data-premium-close></div>
-      <div class="premium-modal-panel" role="document" tabindex="-1">
-        <button class="premium-modal-close" type="button" aria-label="Fechar checkout" data-premium-close>×</button>
-        <h2 id="premium-checkout-title">Checkout Seguro</h2>
-        <p class="premium-checkout-subtitle" id="premium-checkout-subtitle">Escolha sua forma de pagamento</p>
+      <div class="premium-modal-panel" role="document">
+        <button class="premium-modal-close" type="button" aria-label="Close checkout" data-premium-close>×</button>
+        <div class="premium-card-preview">
+          <!-- Developer note: add the provided image at assets/images/xerecard.jpeg if it is missing from the repository. -->
+          <img
+            src="assets/images/xerecard.jpeg"
+            alt="XereCard Black Unlimited premium payment card"
+            loading="lazy"
+          />
+        </div>
 
-        <div class="premium-checkout-grid">
-          <div class="premium-card-preview">
-            <img
-              src="assets/images/xerecard.jpeg"
-              alt="XereCard Black Unlimited premium payment card"
-              loading="lazy"
-            />
-            <dl class="premium-checkout-details">
-              <div><dt>Card Holder:</dt><dd>Maria Fernanda ❤️</dd></div>
-              <div><dt>Card:</dt><dd>XereCard™ Black Unlimited</dd></div>
-              <div><dt>Status:</dt><dd>Approved for unlimited love.</dd></div>
-              <div><dt>Available limit:</dt><dd>Infinite.</dd></div>
-            </dl>
+        <div class="premium-checkout-content">
+          <p class="premium-eyebrow">Premium Finale</p>
+          <h2 id="premium-checkout-title">Secure Checkout</h2>
+          <dl class="premium-checkout-details">
+            <div>
+              <dt>Card holder</dt>
+              <dd>Maria Fernanda</dd>
+            </div>
+            <div>
+              <dt>Card</dt>
+              <dd>XereCard™ Black Unlimited</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>Approved for unlimited love.</dd>
+            </div>
+            <div>
+              <dt>Available limit</dt>
+              <dd>Infinite.</dd>
+            </div>
+          </dl>
+
+          <div class="premium-benefits-block">
+            <h3>Benefits</h3>
+            <ul class="premium-benefits">
+              <li>Unlimited hugs</li>
+              <li>Unlimited kisses</li>
+              <li>Lifetime emotional support</li>
+              <li>Priority cuddle access</li>
+              <li>Premium girlfriend status</li>
+            </ul>
           </div>
 
-          <div class="premium-checkout-content">
-            <h3>Benefícios</h3>
-            <ul class="premium-benefits">
-              <li>✅ Unlimited hugs</li>
-              <li>✅ Unlimited kisses</li>
-              <li>✅ Lifetime emotional support</li>
-              <li>✅ Priority cuddle access</li>
-              <li>✅ Premium girlfriend status</li>
-            </ul>
+          <fieldset class="premium-payment-methods">
+            <legend>Formas de pagamento</legend>
+            <label>
+              <input type="radio" name="premium-payment" value="xerecard" checked />
+              💳 XereCard™ Black Unlimited
+            </label>
+            <label>
+              <input type="radio" name="premium-payment" value="beijinhos" />
+              ❤️ Beijinhos Doces™
+            </label>
+            <label>
+              <input type="radio" name="premium-payment" value="abracos" />
+              🤗 Abraços Ilimitados™
+            </label>
+          </fieldset>
 
-            <fieldset class="premium-payment-methods">
-              <legend>Formas de pagamento</legend>
-              <label class="selected">
-                <input type="radio" name="premium-payment" value="xerecard" checked />
-                <span>💳 XereCard™ Black Unlimited</span>
-              </label>
-              <label>
-                <input type="radio" name="premium-payment" value="beijinhos" />
-                <span>❤️ Beijinhos Doces™</span>
-              </label>
-              <label>
-                <input type="radio" name="premium-payment" value="abracos" />
-                <span>🤗 Abraços Ilimitados™</span>
-              </label>
-            </fieldset>
-
-            <div class="premium-modal-actions">
-              <button class="final-btn premium-approve-btn" id="premium-approve-btn" type="button">💳 Aprovar Transação</button>
-              <button class="premium-return-btn" type="button" data-premium-close>Voltar</button>
-            </div>
+          <div class="premium-modal-actions">
+            <button class="premium-complete-btn" id="premium-complete-purchase" type="button">💳 Aprovar Transação</button>
+            <button class="premium-return-btn" type="button" data-premium-close>Voltar</button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="premium-finale-overlay" id="premium-finale-overlay" aria-hidden="true">
-      <canvas id="premium-finale-canvas" role="img" aria-label="Animação final com partículas formando coração, silhueta Hello Kitty e explosão dourada.">
-        Animação final com partículas formando coração, silhueta Hello Kitty e explosão dourada.
+      <canvas id="premium-finale-canvas" role="img" aria-label="Grand finale animation: particles form a heart, become a Hello Kitty silhouette, then reveal the final love message.">
+        Grand finale animation with love particles, a heart, a Hello Kitty silhouette, and a final romantic message.
       </canvas>
-      <div class="premium-finale-message" id="premium-final-message">
-        <p>You are the best thing that has ever happened to me.<br /><br />Thank you for choosing me every single day.<br /><br />I love you, my little white monkey.<br /><br />Forever yours. ❤️🐒🤍</p>
-        <small>Você merece um final feliz digno de desenho animado. 🎀</small>
+      <div class="premium-approval" id="premium-approval" role="status" aria-live="polite">
+        <strong>Compra aprovada.</strong>
+        <span>Este item colecionável já pertence ao namorado mais sortudo do mundo.</span>
+      </div>
+      <div class="premium-final-message" id="premium-final-message">
+        <p>You are the best thing that has ever happened to me.</p>
+        <p>Thank you for choosing me every single day.</p>
+        <p>I love you, my little white monkey.</p>
+        <p>Forever yours. ❤️🐒🤍</p>
       </div>
     </div>
 
@@ -1187,50 +1188,62 @@ const GOOD_MORNINGS_PER_DAY = 1;
 const LAUGHS_PER_DAY = 15;
 // ✏️ EDIT HERE
 const MEMORIES = [
-  // ✏️ EDIT HERE
-  { date: '[DATA_1]', moment: '[MOMENTO_1]' },
-  // ✏️ EDIT HERE
-  { date: '[DATA_2]', moment: '[MOMENTO_2]' },
-  // ✏️ EDIT HERE
-  { date: '[DATA_3]', moment: '[MOMENTO_3]' },
-  // ✏️ EDIT HERE
-  { date: '[DATA_4]', moment: '[MOMENTO_4]' },
-  // ✏️ EDIT HERE
-  { date: '[DATA_5]', moment: '[MOMENTO_5]' },
+  { date: '18/07/2022', moment: 'Nosso selinho na sala KKKKK 🥹' },
+  { date: '2025',       moment: 'Quando você virou a cara de vergonha do meu beijo 😂❤️' },
+  { date: '19/04/2025', moment: 'Nosso primeiro beijo 💋' },
+  { date: '16/09/2025', moment: 'Ali eu vi que você é a mulher da minha vida 🐒🤍' },
+  { date: '08/10/2025', moment: 'Enfim assumidos. ❤️' },
 ];
 // ✏️ EDIT HERE
 const PHOTOS = [
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto1.jpg', caption: '[LEGENDA_1]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto2.jpg', caption: '[LEGENDA_2]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto3.jpg', caption: '[LEGENDA_3]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto4.jpg', caption: '[LEGENDA_4]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto5.jpg', caption: '[LEGENDA_5]' },
-  // ✏️ EDIT HERE
-  { src: 'assets/images/foto6.jpg', caption: '[LEGENDA_6]' },
+  {
+    src: 'assets/images/foto1.jpg',
+    caption: 'A gente faz amor por telepatia'
+  },
+  {
+    src: 'assets/images/foto2.jpg',
+    caption: 'Dia da dona Hebal conhecer meus pais'
+  },
+  {
+    src: 'assets/images/foto3.jpg',
+    caption: 'Últimos momentos na escola'
+  },
+  {
+    src: 'assets/images/foto4.jpg',
+    caption: 'Foi quando te encontrei ouvindo som e olhando o mar'
+  },
+  {
+    src: 'assets/images/foto5.jpg',
+    caption: 'Tchau ensino médio'
+  },
+  {
+    src: 'assets/images/foto6.jpg',
+    caption: 'Primeiro ano novo com você'
+  },
 ];
 // ✏️ EDIT HERE
-const LETTER_NAME = '[NOME_DELA]';
+const LETTER_NAME = 'Maria Fernanda';
 // ✏️ EDIT HERE
-const LETTER_BODY = '[ESCREVA_AQUI_SUA_MENSAGEM_COMPLETA]';
+const LETTER_BODY = `Oi meu grande amor,
+
+Desde quando eu nasci, só tinha uma certeza: a morte.
+
+Mas depois de te conhecer, ganhei outra. Quando eu tinha 13 anos, eu te vi, olhei e pensei:
+
+"Agora tenho duas certezas: a morte, e que a Fernanda vai ser mãe dos meus filhos."
+
+Te amo muito, meu amor.`;
 // ✏️ EDIT HERE
-const LETTER_SENDER = '[SEU_NOME]';
+const LETTER_SENDER = 'Caue, seu bebezão cutie cutie 🐒🖤💋🐒🤍';
 // ✏️ EDIT HERE
 const TYPEWRITER_SPEED = 40;
 // ✏️ EDIT HERE
 const QUIZ_QUESTIONS = [
-  // ✏️ EDIT HERE
-  { q: '[PERGUNTA_1]', a: '[RESPOSTA_1]' },
-  // ✏️ EDIT HERE
-  { q: '[PERGUNTA_2]', a: '[RESPOSTA_2]' },
-  // ✏️ EDIT HERE
-  { q: '[PERGUNTA_3]', a: '[RESPOSTA_3]' },
+  { q: 'Quando foi a primeira vez que a gente deu um selinho? 🥹', a: '18/07/2022' },
+  { q: 'Quando foi nosso primeiro beijo de verdade? 💋',           a: '19/04/2025' },
+  { q: 'Qual é a nossa data de namoro? ❤️',                        a: '16/09/2025' },
 ];
-// ✏️ EDIT HERE
+
 const PARTIAL_MATCH = false;
 // ✏️ EDIT HERE
 const WRONG_PHRASES = [
@@ -1245,17 +1258,14 @@ const WRONG_PHRASES = [
 ];
 // ✏️ EDIT HERE
 const SCRATCH_PRIZES = [
-  // ✏️ EDIT HERE
-  '[VALE_1]',
-  // ✏️ EDIT HERE
-  '[VALE_2]',
-  // ✏️ EDIT HERE
-  '[VALE_3]',
+  'Vale meus beijinhos 😘',
+  'Vale fazer os quereres da bonita 👑',
+  'Vale uma noite especial só nossa 🔥❤️',
 ];
 // ✏️ EDIT HERE
 const SCRATCH_THRESHOLD = 0.60;
 // ✏️ EDIT HERE
-const FINAL_MESSAGE = 'Você é a melhor coisa que aconteceu na minha vida. Te amo, meu macaquinho branquinho. 🐒🤍🐒';
+const FINAL_MESSAGE = 'Nosso primeiro e eterno Dia dos Namorados. Te amo, Nandinha. 🐒🤍';
 
 (() => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1373,7 +1383,7 @@ const FINAL_MESSAGE = 'Você é a melhor coisa que aconteceu na minha vida. Te a
 
   function initLoveLetter() {
     const letterCard = document.getElementById('letter-card');
-    const fullLetter = `Querida ${LETTER_NAME},\n\n${LETTER_BODY}\n\nCom amor,\n${LETTER_SENDER} 🐒🖤`;
+    const fullLetter = `Querida ${LETTER_NAME}\n\n${LETTER_BODY}\n\nCom amor,\n${LETTER_SENDER}`;
     if (!letterCard) return;
 
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
